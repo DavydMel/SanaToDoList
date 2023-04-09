@@ -1,0 +1,22 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ToDoListMVC.Models
+{
+    public class ToDoItem
+    {
+        [Key]
+        public int id { get; set; }
+
+        public int category_id { get; set; }
+
+        [Required]
+        public string name { get; set; }
+
+        public DateTime? deadline { get; set; }
+
+        [Required]
+        public bool is_completed { get; set; }
+
+        public Category category { get; set; }
+    }
+}

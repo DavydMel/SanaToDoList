@@ -1,0 +1,70 @@
+﻿@model ToDoItemsWithCategoriesDto
+@{
+    ViewData["Title"] = "ToDoList Home Page";
+}
+
+<div class="container">
+    <form method="post" class="mb-5">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group mb-2">
+            <label for="category_id">Category</label>
+            <select id="category_id" name="category_id" class="form-select">
+                @foreach(var item in Model.Categories)
+                {
+                    <option value="@item.id">@item.name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group mb-2">
+            <label for="name">Text</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Text" />
+        </div>
+        <div class="form-group mb-2">
+            <label for="deadline">Deadline</label>
+            <input type="datetime-local" id="deadline" name="deadline" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div>
+        <div class="list-group">
+            @foreach(var item in Model.ToDoItems)
+            {
+                string bgColor = "list-group-item-info  ";
+                if (item.is_completed)
+                {
+                    bgColor = "list-group-item-success";
+                }
+                else if (item.deadline == null)
+                {
+                    bgColor = "";
+                }
+                else if (DateTime.Compare((DateTime)item.deadline, DateTime.Now) <= 0) {
+                    bgColor = "list-group-item-danger";
+                }
+
+                <div class="list-group-item list-group-item-action flex-column align-items-start @bgColor">
+                        <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@item.name</h5>
+                        @if (item.deadline is null)
+                        {
+                            <small>there is no deadline</small>
+                        }
+                        else
+                        {
+                            <small>@item.deadline</small>
+                        }
+                    </div>
+                    <p class="mb-1">Category: @item.category.name</p>
+
+                    @if(!item.is_completed)
+                    {
+                        <a asp-action="CompleteToDoItem" asp-route-id="@item.id" class="btn btn-success">Complete</a>
+                    }
+                    <a asp-action="DeleteToDoItem" asp-route-id="@item.id" class="btn btn-danger">Delete</a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
