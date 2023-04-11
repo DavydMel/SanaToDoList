@@ -16,22 +16,18 @@ namespace ToDoListMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var toDoItemsWhithCategories = new ToDoItemsWithCategoriesDto();
+            var toDoItemsWhithCategories = new ToDoItemsWithCategoriesViewModel();
             toDoItemsWhithCategories.ToDoItems = await _repo.GetToDoItemsAsync();
             toDoItemsWhithCategories.Categories = await _repo.GetCategoriesAsync();
             return View(toDoItemsWhithCategories);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ToDoItemForCreationDto item)
+        public async Task<IActionResult> Index(ToDoItemForCreationInputModel item)
         {
-            if (item == null || item.name == null || item.name.Length == 0 || item.name == "")
-            {
-                ModelState.AddModelError(String.Empty, "Incorrect input");
-            }
             if (!ModelState.IsValid)
             {
-                var toDoItemsWhithCategories = new ToDoItemsWithCategoriesDto();
+                var toDoItemsWhithCategories = new ToDoItemsWithCategoriesViewModel();
                 toDoItemsWhithCategories.ToDoItems = await _repo.GetToDoItemsAsync();
                 toDoItemsWhithCategories.Categories = await _repo.GetCategoriesAsync();
                 return View(toDoItemsWhithCategories);
@@ -44,13 +40,6 @@ namespace ToDoListMVC.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteToDoItem(int id)
         {
-            var toDoItem = await _repo.GetToDoItemAsync(id);
-
-            if (toDoItem == null)
-            {
-                return NotFound();
-            }
-
             await _repo.DeleteToDoItemAsync(id);
             return RedirectToAction("Index");
         }

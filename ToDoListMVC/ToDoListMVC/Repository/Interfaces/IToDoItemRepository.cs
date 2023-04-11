@@ -8,7 +8,7 @@ namespace ToDoListMVC.Repository.Interfaces
         public Task<IEnumerable<ToDoItem>> GetToDoItemsAsync();
         public Task<ToDoItem> GetToDoItemAsync(int id);
         public Task<IEnumerable<Category>> GetCategoriesAsync();
-        public Task CreateToDoItemAsync(ToDoItemForCreationDto item);
+        public Task CreateToDoItemAsync(ToDoItemForCreationInputModel item);
         public Task DeleteToDoItemAsync(int id);
         public Task CompleteToDoItemAsync(int id);
     }

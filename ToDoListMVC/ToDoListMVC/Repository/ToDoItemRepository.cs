@@ -18,7 +18,7 @@ namespace ToDoListMVC.Repository
 
         public async Task CompleteToDoItemAsync(int id)
         {
-            string query = "UPDATE ToDoItem SET is_completed = 1 WHERE id = @id";
+            string query = "UPDATE ToDoItem SET is_completed = ~is_completed WHERE id = @id";
 
             using (var connection = _context.CreateConnection())
             {
@@ -26,7 +26,7 @@ namespace ToDoListMVC.Repository
             }
         }
 
-        public async Task CreateToDoItemAsync(ToDoItemForCreationDto item)
+        public async Task CreateToDoItemAsync(ToDoItemForCreationInputModel item)
         {
             var query = "INSERT INTO ToDoItem (category_id, name, deadline, is_completed) VALUES (@category_id, @name, @deadline, 0)";
 
@@ -75,21 +75,11 @@ namespace ToDoListMVC.Repository
 
         public async Task<IEnumerable<ToDoItem>> GetToDoItemsAsync()
         {
-            string query = "SELECT tdi.id, tdi.category_id, tdi.name, tdi.deadline, tdi.is_completed, c.id, c.name FROM ToDoItem tdi JOIN Category c ON tdi.category_id = c.id";
+            string query = "SELECT * FROM ToDoItem";
 
             using (var connection = _context.CreateConnection())
             {
-                var toDoItems = await connection.QueryAsync<ToDoItem, Category, ToDoItem>(
-                    query, (toDoItem, category) =>
-                    {
-                        if (toDoItem.category_id == category.id)
-                        {
-                            toDoItem.category = category;
-                        }
-
-                        return toDoItem;
-                    }
-                );
+                var toDoItems = await connection.QueryAsync<ToDoItem>(query);
 
                 toDoItems = toDoItems.OrderBy(i => i.is_completed).ThenByDescending(i => i.deadline.HasValue).ThenBy(i => i.deadline);
                 return toDoItems.Distinct().ToList();

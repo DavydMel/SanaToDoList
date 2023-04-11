@@ -16,7 +16,5 @@ namespace ToDoListMVC.Models
 
         [Required]
         public bool is_completed { get; set; }
-
-        public Category category { get; set; }
     }
 }
