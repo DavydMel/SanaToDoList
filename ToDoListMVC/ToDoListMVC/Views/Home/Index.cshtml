@@ -26,6 +26,8 @@
             <label for="deadline">Deadline</label>
             <input type="datetime-local" id="deadline" name="deadline" />
         </div>
+        <input type="hidden" id="type" name="type" value="@Model.Type" />
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
@@ -46,7 +48,7 @@
                     bgColor = "list-group-item-danger";
                 }
 
-                <div class="list-group-item list-group-item-action flex-column align-items-start @bgColor">
+                <div class="list-group-item list-group-item-action @bgColor">
                         <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">@item.name</h5>
                         @if (item.deadline is not null)
@@ -56,7 +58,7 @@
                     </div>
                     <p class="mb-1">Category: @categoriesDict[item.category_id]</p>
 
-                    <a asp-action="CompleteToDoItem" asp-route-id="@item.id" class="btn btn-success">
+                    <a asp-action="CompleteToDoItem" asp-route-id="@item.id" asp-route-type="@Model.Type" class="btn btn-success">
                         @if (item.is_completed)
                         {
                             <span>Uncompleted</span>
@@ -66,7 +68,7 @@
                             <span>Completed</span>
                         }
                     </a>
-                    <a asp-action="DeleteToDoItem" asp-route-id="@item.id" class="btn btn-danger">Delete</a>
+                    <a asp-action="DeleteToDoItem" asp-route-id="@item.id" asp-route-type="@Model.Type" class="btn btn-danger">Delete</a>
                 </div>
             }
         </div>

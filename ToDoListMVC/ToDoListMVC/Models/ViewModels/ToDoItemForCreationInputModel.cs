@@ -11,5 +11,6 @@ namespace ToDoListMVC.Models.DTO
         public string name { get; set; }
 
         public DateTime? deadline { get; set; }
+        public string type { get; set; } = "db";
     }
 }

@@ -7,11 +7,11 @@ using ToDoListMVC.Repository.Interfaces;
 
 namespace ToDoListMVC.Repository
 {
-    public class ToDoItemRepository : IToDoItemRepository
+    public class ToDoItemDbRepository : IToDoItemDbRepository
     {
         private readonly DapperContext _context;
 
-        public ToDoItemRepository(DapperContext context)
+        public ToDoItemDbRepository(DapperContext context)
         {
             _context = context;
         }

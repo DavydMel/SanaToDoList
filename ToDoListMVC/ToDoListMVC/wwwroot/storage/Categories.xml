@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Categories>
+  <Category id="1" name="First" />
+  <Category id="2" name="Second" />
+  <Category id="3" name="Third" />
+</Categories>

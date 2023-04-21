@@ -3,7 +3,7 @@ using ToDoListMVC.Models.DTO;
 
 namespace ToDoListMVC.Repository.Interfaces
 {
-    public interface IToDoItemRepository
+    public interface IToDoItemDbRepository
     {
         public Task<IEnumerable<ToDoItem>> GetToDoItemsAsync();
         public Task<ToDoItem> GetToDoItemAsync(int id);

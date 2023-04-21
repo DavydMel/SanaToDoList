@@ -4,5 +4,6 @@
     {
         public IEnumerable<ToDoItem> ToDoItems { get; set; } = new List<ToDoItem>();
         public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        public string? Type { get; set; }
     }
 }
