@@ -7,7 +7,7 @@ using ToDoListMVC.Repository.Interfaces;
 
 namespace ToDoListMVC.Repository
 {
-    public class ToDoItemDbRepository : IToDoItemDbRepository
+    public class ToDoItemDbRepository : IToDoItemRepository
     {
         private readonly DapperContext _context;
 

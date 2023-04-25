@@ -1,20 +1,19 @@
 ﻿using System.Xml;
-using System.Xml.Linq;
 using ToDoListMVC.Models;
 using ToDoListMVC.Models.DTO;
 using ToDoListMVC.Repository.Interfaces;
 
 namespace ToDoListMVC.Repository
 {
-    public class ToDoItemXmlRepository : IToDoItemXmlRepository
+    public class ToDoItemXmlRepository : IToDoItemRepository
     {
         private readonly string pathToDoItems;
         private readonly string pathCategories;
 
-        public ToDoItemXmlRepository(IWebHostEnvironment env)
+        public ToDoItemXmlRepository(IWebHostEnvironment env, IConfiguration configuration)
         {
-            pathToDoItems = string.Concat(env.WebRootPath, "/storage/ToDoItems.xml");
-            pathCategories = string.Concat(env.WebRootPath, "/storage/Categories.xml");
+            pathToDoItems = string.Concat(env.WebRootPath, configuration.GetConnectionString("PathToDoItemsXml"));
+            pathCategories = string.Concat(env.WebRootPath, configuration.GetConnectionString("PathCategoriesXml"));
         }
 
         public async Task CompleteToDoItemAsync(int id)
