@@ -14,7 +14,7 @@ namespace ToDoListMVC.Controllers
         public HomeController(DataSourceSwitcher switcher)
         {
             _switcher = switcher;
-            _repo = _switcher.GetCurrent();
+            _repo = _switcher.GetCurrentDataSource();
         }
 
         [HttpGet]

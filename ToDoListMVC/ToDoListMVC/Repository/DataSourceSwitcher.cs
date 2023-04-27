@@ -8,7 +8,7 @@ namespace ToDoListMVC.Repository
         private readonly DapperContext _context;
         private readonly IWebHostEnvironment _env;
         private readonly IConfiguration _configuration;
-        public string? DataSourceType { get; set; } = "";
+        public string? DataSourceType { get; set; } = "db";
 
         public DataSourceSwitcher(DapperContext context, IWebHostEnvironment env, IConfiguration configuration)
         {
@@ -27,7 +27,7 @@ namespace ToDoListMVC.Repository
             return new ToDoItemDbRepository(_context);
         }
 
-        public IToDoItemRepository GetCurrent()
+        public IToDoItemRepository GetCurrentDataSource()
         {
             if (DataSourceType == "xml")
             {
