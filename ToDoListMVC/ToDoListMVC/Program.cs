@@ -17,13 +17,10 @@ builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<DataSourceSwitcher>();
 builder.Services.AddControllersWithViews();
 
-//builder.Services.AddSingleton<ISchema, AppSchema>();
-//builder.Services.AddGraphQL(opt => opt.EnableMetrics = false);
-
 builder.Services.AddGraphQL(builder => builder
             .AddSystemTextJson()
-            .AddSchema<AppSchema>()
-            .AddGraphTypes(typeof(AppSchema).Assembly));
+            .AddSchema<ToDoItemSchema>()
+            .AddGraphTypes(typeof(ToDoItemSchema).Assembly));
 
 var app = builder.Build();
 
@@ -42,7 +39,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseGraphQL<AppSchema>();
+app.UseGraphQL<ToDoItemSchema>();
 app.UseGraphQLAltair();
 
 app.MapControllerRoute(

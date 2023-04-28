@@ -9,9 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="GraphQL" Version="7.4.1" />
-    <PackageReference Include="GraphQL.DataLoader" Version="7.4.1" />
-    <PackageReference Include="GraphQL.MemoryCache" Version="7.4.1" />
-    <PackageReference Include="GraphQL.MicrosoftDI" Version="7.4.1" />
     <PackageReference Include="GraphQL.NewtonsoftJson" Version="7.4.1" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.4.0" />
     <PackageReference Include="GraphQL.Server.Ui.Altair" Version="7.4.0" />
