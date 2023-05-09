@@ -10,10 +10,10 @@ namespace ToDoListMVC.Controllers
         private readonly DataSourceSwitcher _switcher;
         private IToDoItemRepository _repo;
 
-
         public HomeController(DataSourceSwitcher switcher)
         {
             _switcher = switcher;
+            Console.WriteLine(_switcher.GetCurrentDataSource());
             _repo = _switcher.GetCurrentDataSource();
         }
 
@@ -45,7 +45,9 @@ namespace ToDoListMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeDataSource(string? sourse = "db")
         {
-            _repo = _switcher.Switch(sourse);
+            _switcher.Switch(sourse);
+            _repo = _switcher.GetCurrentDataSource();
+            Response.Cookies.Append("storageType", sourse);
             return RedirectToAction("Index");
         }
 

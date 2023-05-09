@@ -1,13 +1,7 @@
 using GraphQL;
-using GraphQL.Instrumentation;
-using GraphQL.Server;
-using GraphQL.Types;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using ToDoListMVC.Context;
-using ToDoListMVC.GraphQL.GraphQLQueries;
 using ToDoListMVC.GraphQL.GraphQLSchema;
-using ToDoListMVC.GraphQL.GraphQLTypes;
+using ToDoListMVC.Middleware;
 using ToDoListMVC.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +32,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseStorageCookie();
 
 app.UseGraphQL<ToDoItemSchema>();
 app.UseGraphQLAltair();
