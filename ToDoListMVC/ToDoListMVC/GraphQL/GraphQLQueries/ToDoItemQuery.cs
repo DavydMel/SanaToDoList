@@ -10,10 +10,12 @@ namespace ToDoListMVC.GraphQL.GraphQLQueries
     public class ToDoItemQuery : ObjectGraphType
     {
         private readonly DataSourceSwitcher _switcher;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ToDoItemQuery(DataSourceSwitcher switcher)
+        public ToDoItemQuery(DataSourceSwitcher switcher, IHttpContextAccessor httpContextAccessor)
         {
             _switcher = switcher;
+            _httpContextAccessor = httpContextAccessor;
 
             Field<ListGraphType<ToDoItemType>>("toDoItems")
                 .ResolveAsync(async context => await _switcher.GetCurrentDataSource().GetToDoItemsAsync());
@@ -35,6 +37,10 @@ namespace ToDoListMVC.GraphQL.GraphQLQueries
                 {
                     string type = context.GetArgument<string>("type");
                     _switcher.Switch(type);
+                    if (_httpContextAccessor.HttpContext != null)
+                    {
+                        _httpContextAccessor.HttpContext.Response.Cookies.Append("storageType", type);
+                    }
                     return $"Storage type changed to {type}";
                 });
         }

@@ -13,7 +13,6 @@ namespace ToDoListMVC.Controllers
         public HomeController(DataSourceSwitcher switcher)
         {
             _switcher = switcher;
-            Console.WriteLine(_switcher.GetCurrentDataSource());
             _repo = _switcher.GetCurrentDataSource();
         }
 

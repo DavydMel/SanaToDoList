@@ -22,8 +22,6 @@ namespace ToDoListMVC.Middleware
                 httpContext.Response.Cookies.Append("storageType", storageType);
             }
             _switcher.Switch(storageType);
-            Console.WriteLine(storageType);
-            Console.WriteLine(_switcher.GetCurrentDataSource());
             await _next.Invoke(httpContext);
         }
     }
