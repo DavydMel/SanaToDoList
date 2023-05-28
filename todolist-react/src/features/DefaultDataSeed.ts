@@ -1,6 +1,7 @@
 import {ToDoItem} from "../models/ToDoItem";
 import {Category} from "../models/Category";
 import {ToDoItemsWithCategories} from "../models/view/ToDoItemsWithCategories";
+import {SortToDoItems} from "./ToDoItemRepository";
 
 export function DefaultToDoItemsSeed(): ToDoItem[] {
     return [
@@ -8,14 +9,14 @@ export function DefaultToDoItemsSeed(): ToDoItem[] {
             id: 1,
             category_id: 1,
             name: "Study SQL2",
-            deadline: new Date("04.04.2023 14:30:00"),
+            deadline: "04.04.2023 14:30:00",
             is_completed: false
         },
         {
             id: 2,
             category_id: 2,
             name: "Visit parents2",
-            deadline: new Date("13.04.2023 12:00:00"),
+            deadline: "04.13.2023 14:30:00",
             is_completed: true
         },
         {
@@ -47,7 +48,7 @@ export function DefaultCategoriesSeed(): Category[] {
 
 export function DefaultDataSeed(): ToDoItemsWithCategories {
     return {
-      ToDoItems: DefaultToDoItemsSeed(),
+      ToDoItems: SortToDoItems(DefaultToDoItemsSeed()),
       Categories: DefaultCategoriesSeed(),
       Type: "db"
     };
