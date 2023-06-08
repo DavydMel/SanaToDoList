@@ -11,3 +11,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.vertival-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.todoitem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 10px;
+}
+.btn_container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.main_btn {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: transparent;
+  margin: 0 0 0 10px;
+  padding: 10px;
+}
+.main_btn.btn__complete {
+  border-color: green;
+  color: green;
+}
+.main_btn.btn__uncomplete {
+  border-color: orange;
+  color: orange;
+}
+.main_btn.btn__delete {
+   border-color: red;
+   color: red;
+}
+
+.text__completed {
+  text-decoration: line-through;
+  color: green;
+}

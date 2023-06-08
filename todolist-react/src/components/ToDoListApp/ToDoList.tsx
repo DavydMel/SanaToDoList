@@ -1,5 +1,4 @@
 import {ToDoItemsWithCategories} from "../../models/view/ToDoItemsWithCategories";
-import ListGroup from "react-bootstrap/ListGroup";
 import ToDoListItem from "./ToDoListItem";
 
 type ToDoListProps = {
@@ -8,7 +7,7 @@ type ToDoListProps = {
 
 function ToDoList({data}: ToDoListProps) {
     return (
-        <ListGroup>
+        <div className="vertival-list">
             {
                 data.ToDoItems.map((toDoItem) => {
                     let category = data.Categories.find(
@@ -26,7 +25,7 @@ function ToDoList({data}: ToDoListProps) {
                     }
                 })
             }
-        </ListGroup>
+        </div>
     );
 }
 

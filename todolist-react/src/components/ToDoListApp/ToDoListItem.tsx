@@ -1,9 +1,8 @@
-import ListGroup from 'react-bootstrap/ListGroup';
-import Button from "react-bootstrap/Button";
 import {ToDoItem} from "../../models/ToDoItem";
 import {Category} from "../../models/Category";
 import {useAppDispatch} from "../../features/hooks";
 import {completetodoitem, deletetodoitem} from "../../redux/todolistSlice";
+import moment from "moment";
 
 interface ToDoListItemProps {
     item: ToDoItem,
@@ -32,30 +31,35 @@ function ToDoListItem({item, category}: ToDoListItemProps) {
     }
 
     return (
-        <ListGroup.Item variant={bgColor}>
-            <div className="d-flex flex-column">
-                <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{item.name}</h5>
-                    {item.deadline? <small>{item.deadline}</small> : ""}
-                </div>
-                <p className="mb-1 align-self-start">Category: {category.name}</p>
-                <div className="mt-3">
-                    <Button
-                        className="w-25 mx-2"
-                        onClick={handleComplete}
-                    >
-                        {item.is_completed? "Don't complete" :"Complete"}
-                    </Button>
-                    <Button
-                        className="w-25 mx-2"
-                        variant="danger"
-                        onClick={handleDelete}
-                    >
-                        Delete
-                    </Button>
-                </div>
+        <div className="todoitem">
+            <div>
+                <h5
+                    className={`mb-1 + ${item.is_completed? "text__completed" : ""}`}>
+                    {category.name}: {item.name}
+                </h5>
+                {
+                    item.deadline ?
+                        <small>
+                            {moment(Date.parse(item.deadline))
+                                .format("DD.MM.YYYY HH:mm")}
+                        </small> : ""
+                }
             </div>
-        </ListGroup.Item>
+            <div className="btn_container">
+                <button
+                    className={`main_btn + ${item.is_completed? "btn__uncomplete" : "btn__complete"}`}
+                    onClick={handleComplete}
+                >
+                    {item.is_completed? <i className="bi bi-x"></i> : <i className="bi bi-check-lg"></i>}
+                </button>
+                <button
+                    className="main_btn btn__delete"
+                    onClick={handleDelete}
+                >
+                    <i className="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
     );
 }
 
