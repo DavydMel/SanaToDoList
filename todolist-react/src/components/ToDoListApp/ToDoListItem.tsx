@@ -12,17 +12,6 @@ interface ToDoListItemProps {
 function ToDoListItem({item, category}: ToDoListItemProps) {
     const dispatch = useAppDispatch();
 
-    let bgColor: string = "info";
-    if (item.is_completed) {
-        bgColor = "success"
-    }
-    else if (!item.deadline) {
-        bgColor = "";
-    }
-    else if (Date.parse(item.deadline) < Date.now()) {
-        bgColor = "danger"
-    }
-
     function handleComplete() {
         dispatch(completetodoitem(item.id));
     }

@@ -8,8 +8,7 @@ import {GenerateToDoItem} from "../../features/ToDoItemRepository";
 import {addtodoitem} from "../../redux/todolistSlice";
 
 interface ToDoListAddFormProps {
-    categories: Category[],
-    newId: number
+    categories: Category[]
 }
 const initialRawToDoItem: ToDoItemForCreationInput = {
     name: "",
@@ -17,7 +16,7 @@ const initialRawToDoItem: ToDoItemForCreationInput = {
     deadline: null
 };
 
-function ToDoListAddForm({categories, newId}: ToDoListAddFormProps) {
+function ToDoListAddForm({categories}: ToDoListAddFormProps) {
     const dispatch = useAppDispatch();
 
     const [RawTodoitem, setRawTodoitem] =
@@ -44,8 +43,7 @@ function ToDoListAddForm({categories, newId}: ToDoListAddFormProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        let todoitem = GenerateToDoItem(RawTodoitem, newId);
-        dispatch(addtodoitem(todoitem));
+        dispatch(addtodoitem(RawTodoitem));
         setRawTodoitem(initialRawToDoItem);
     }
 

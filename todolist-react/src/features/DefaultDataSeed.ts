@@ -42,7 +42,7 @@ export function DefaultCategoriesSeed(): Category[] {
         {
             id: 3,
             name: "Third"
-        },
+        }
     ];
 }
 

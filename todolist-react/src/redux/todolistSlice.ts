@@ -1,22 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DefaultDataSeed } from "../features/DefaultDataSeed";
 import {ToDoItemsWithCategories} from "../models/view/ToDoItemsWithCategories";
-import {ToDoItem} from "../models/ToDoItem";
+import {ToDoItemForCreationInput} from "../models/view/ToDoItemForCreationInput";
 
 interface todolistState {
     data: ToDoItemsWithCategories
 }
 const initialState: todolistState = {
-    data: DefaultDataSeed()
+    data: {
+        ToDoItems: [],
+        Categories: [],
+        Type: "db"
+    }
 };
 
 export const todolistSlice = createSlice({
     name: "todolist",
     initialState,
     reducers: {
+        gettodoitem: (state,
+                      action: PayloadAction<ToDoItemsWithCategories>) => {
+            state.data = {
+                ...state.data,
+                ToDoItems: action.payload.ToDoItems,
+                Categories: action.payload.Categories
+            }
+        },
         addtodoitem: (state,
-                      action: PayloadAction<ToDoItem>) => {
-            state.data.ToDoItems = [...state.data.ToDoItems, action.payload];
+                      action: PayloadAction<ToDoItemForCreationInput>) => {
+            //state.data.ToDoItems = [...state.data.ToDoItems, action.payload];
         },
         completetodoitem: (state,
                            action: PayloadAction<number>) => {
@@ -38,6 +49,7 @@ export const todolistSlice = createSlice({
 });
 
 export const {
+    gettodoitem,
     addtodoitem,
     completetodoitem,
     deletetodoitem

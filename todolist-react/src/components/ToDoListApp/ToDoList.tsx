@@ -11,7 +11,7 @@ function ToDoList({data}: ToDoListProps) {
             {
                 data.ToDoItems.map((toDoItem) => {
                     let category = data.Categories.find(
-                        c => c.id === toDoItem.category_id
+                        c => Number(c.id) === toDoItem.category_id
                     );
 
                     if (category) {
