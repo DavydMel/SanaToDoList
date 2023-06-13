@@ -54,3 +54,20 @@ code {
   text-decoration: line-through;
   color: green;
 }
+
+.error-message {
+  background-color: #f8d7da; /* Колір фону */
+  border: 1px solid #f5c6cb; /* Рамка */
+  color: #721c24; /* Колір тексту */
+  padding: 10px; /* Відступи */
+  border-radius: 4px; /* Закруглені кути */
+  margin: 20px;
+}
+
+.error-message strong {
+  font-weight: bold; /* Жирний шрифт для заголовка */
+}
+
+.error-message p {
+  margin: 0; /* Видалення відступів для абзаців */
+}

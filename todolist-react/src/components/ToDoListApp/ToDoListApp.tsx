@@ -2,31 +2,43 @@ import ToDoList from "./ToDoList";
 import {Container} from "react-bootstrap";
 import {useAppDispatch, useAppSelector} from "../../features/hooks";
 import ToDoListAddForm from "./ToDoListAddForm";
-import {ToDoItemsWithCategories} from "../../models/view/ToDoItemsWithCategories";
-import {getToDoItemsWithCategories} from "../../redux/epics";
+import {getToDoItems} from "../../redux/epics";
 import {useEffect} from "react";
+import {todolistState} from "../../redux/todolistSlice";
 
 function ToDoListApp() {
-    const data: ToDoItemsWithCategories = useAppSelector((state) => state.data);
+    const {data, error}: todolistState = useAppSelector((state) => state);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(getToDoItemsWithCategories());
+        dispatch(getToDoItems());
     }, []);
 
-    console.log(data)
     return (
       <Container>
-          <div>
-              <div className="mt-3">
-                  <h1 className="mt-3">Add ToDoList Item</h1>
-                  <ToDoListAddForm categories={data.Categories} />
-              </div>
-              <div className="mt-3">
-                  <h1 className="mt-3">ToDoList</h1>
-                  <ToDoList data={data} />
-              </div>
-          </div>
+          {
+              error === undefined ?
+                  (
+                      <div>
+                          <div className="mt-3">
+                              <h1 className="mt-3">Add ToDoList Item</h1>
+                              <ToDoListAddForm categories={data.Categories} />
+                          </div>
+                          <div className="mt-3">
+                              <h1 className="mt-3">ToDoList</h1>
+                              <ToDoList data={data} />
+                          </div>
+                      </div>
+                  ) :
+                  (
+                      <div className="error-message">
+                          <strong>Помилка:</strong>
+                          <p>Щось пішло не так...</p>
+                          <p>Ймовірно зв'язок з сервером був перерваний</p>
+                          <p>Будь ласка, спробуйте пізніше</p>
+                      </div>
+                  )
+          }
       </Container>
     );
 }
