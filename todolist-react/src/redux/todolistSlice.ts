@@ -30,27 +30,8 @@ export const todolistSlice = createSlice({
         },
         getToDoItemsRejected: (state,
                                action: PayloadAction<string>) => {
+            console.error(action.payload)
             state.error = action.payload;
-        },
-        addtodoitem: (state,
-                      action: PayloadAction<ToDoItemForCreationInput>) => {
-            //state.data.ToDoItems = [...state.data.ToDoItems, action.payload];
-        },
-        completetodoitem: (state,
-                           action: PayloadAction<number>) => {
-            let todoitem =
-                state.data.ToDoItems.find(i => i.id === action.payload);
-            if (todoitem) {
-                todoitem.is_completed = !todoitem.is_completed;
-            }
-        },
-        deletetodoitem: (state,
-            action: PayloadAction<number>) => {
-            let index = state.data.ToDoItems
-                .findIndex(i => i.id === action.payload);
-            if (index > -1) {
-                state.data.ToDoItems.splice(index, 1);
-            }
         }
     }
 });
@@ -58,8 +39,5 @@ export const todolistSlice = createSlice({
 export const {
     getToDoItemsSuccess,
     getToDoItemsRejected,
-    addtodoitem,
-    completetodoitem,
-    deletetodoitem
 } = todolistSlice.actions;
 export default todolistSlice.reducer;

@@ -1,55 +1,53 @@
 import {ToDoItemsWithCategories} from "../models/view/ToDoItemsWithCategories";
 import {Epic, ofType} from "redux-observable";
-import {catchError, delay, map, mergeMap, of} from "rxjs";
+import {catchError, delay, map, mergeMap, Observable, of} from "rxjs";
 import {getToDoItemsSuccess, getToDoItemsRejected} from "./todolistSlice";
-import {Category} from "../models/Category";
-import {ToDoItem} from "../models/ToDoItem";
-import {ajax} from "rxjs/internal/ajax/ajax";
-import {AjaxError} from "rxjs/internal/ajax/errors";
+import {
+    RequestAddToDoItem,
+    RequestCompleteToDoItem,
+    RequestDeleteToDoItem,
+    RequestToDoItem
+} from "../features/ToDoItemRepository";
+import {ToDoItemForCreationInput} from "../models/view/ToDoItemForCreationInput";
+import {PayloadAction} from "@reduxjs/toolkit";
 
 export const getToDoItems = () => ({ type: "getToDoItems"});
-interface GraphqlToDoItemsWithCategories {
-    data: {
-        categories: Category[],
-        toDoItems: ToDoItem[]
-    }
-}
 export const getToDoItemsEpic: Epic = action$ => action$.pipe(
     ofType("getToDoItems"),
     //delay(3000),
-    mergeMap(action => ajax<GraphqlToDoItemsWithCategories>({
-        url: "https://localhost:7116/graphql",
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            query: `
-                query GetToDoItemsWithCategories {
-                  toDoItems {
-                    id,
-                    name,
-                    category_id,
-                    deadline,
-                    is_completed
-                  },
-                  categories {
-                    id,
-                    name
-                  }
-                }
-            `
-            })
-    }).pipe(
-        map(res => {
-            let toDoItemsWithCategories: ToDoItemsWithCategories = {
-                ToDoItems: res.response.data.toDoItems,
-                Categories: res.response.data.categories,
-                Type: "db"
-            }
-            return toDoItemsWithCategories;
-        }),
+    mergeMap(() => RequestToDoItem().pipe(
         map((res: ToDoItemsWithCategories) => getToDoItemsSuccess(res)),
-        catchError((error: AjaxError) => of(getToDoItemsRejected(error.message)))
+        catchError((error) => of(getToDoItemsRejected(error.message)))
+    ))
+);
+
+export const addToDoItem = (toDoItem: ToDoItemForCreationInput) => (
+    {type: "addToDoItem", payload: toDoItem});
+export const addToDoItemEpic: Epic = (action$: Observable<PayloadAction<ToDoItemForCreationInput>>) => action$.pipe(
+    ofType("addToDoItem"),
+    map(action => action.payload),
+    mergeMap((toDoItem) => RequestAddToDoItem(toDoItem).pipe(
+        map(() => getToDoItems()),
+        catchError((error) => of(getToDoItemsRejected(error.message)))
+    ))
+);
+
+export const completeToDoItem = (id: number) => ({type: "completeToDoItem", payload: id});
+export const completeToDoItemEpic: Epic = (action$: Observable<PayloadAction<number>>) => action$.pipe(
+    ofType("completeToDoItem"),
+    map(action => action.payload),
+    mergeMap((id) => RequestCompleteToDoItem(id).pipe(
+        map(() => getToDoItems()),
+        catchError((error) => of(getToDoItemsRejected(error.message)))
+    ))
+);
+
+export const deleteToDoItem = (id: number) => ({type: "deleteToDoItem", payload: id});
+export const deleteToDoItemEpic: Epic = (action$: Observable<PayloadAction<number>>) => action$.pipe(
+    ofType("deleteToDoItem"),
+    map(action => action.payload),
+    mergeMap((id) => RequestDeleteToDoItem(id).pipe(
+        map(() => getToDoItems()),
+        catchError((error) => of(getToDoItemsRejected(error.message)))
     ))
 );

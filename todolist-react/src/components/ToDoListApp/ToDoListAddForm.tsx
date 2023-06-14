@@ -4,8 +4,7 @@ import Form from "react-bootstrap/Form";
 import React, {useState} from "react";
 import {ToDoItemForCreationInput} from "../../models/view/ToDoItemForCreationInput";
 import {useAppDispatch} from "../../features/hooks";
-import {GenerateToDoItem} from "../../features/ToDoItemRepository";
-import {addtodoitem} from "../../redux/todolistSlice";
+import {addToDoItem} from "../../redux/epics";
 
 interface ToDoListAddFormProps {
     categories: Category[]
@@ -43,7 +42,7 @@ function ToDoListAddForm({categories}: ToDoListAddFormProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        dispatch(addtodoitem(RawTodoitem));
+        dispatch(addToDoItem(RawTodoitem));
         setRawTodoitem(initialRawToDoItem);
     }
 

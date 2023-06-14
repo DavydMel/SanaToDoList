@@ -1,8 +1,8 @@
 import {ToDoItem} from "../../models/ToDoItem";
 import {Category} from "../../models/Category";
 import {useAppDispatch} from "../../features/hooks";
-import {completetodoitem, deletetodoitem} from "../../redux/todolistSlice";
 import moment from "moment";
+import {completeToDoItem, deleteToDoItem} from "../../redux/epics";
 
 interface ToDoListItemProps {
     item: ToDoItem,
@@ -13,10 +13,10 @@ function ToDoListItem({item, category}: ToDoListItemProps) {
     const dispatch = useAppDispatch();
 
     function handleComplete() {
-        dispatch(completetodoitem(item.id));
+        dispatch(completeToDoItem(item.id));
     }
     function handleDelete() {
-        dispatch(deletetodoitem(item.id));
+        dispatch(deleteToDoItem(item.id));
     }
 
     return (
