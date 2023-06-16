@@ -8,8 +8,7 @@ namespace ToDoListMVC.Repository
         private readonly DapperContext _context;
         private readonly IWebHostEnvironment _env;
         private readonly IConfiguration _configuration;
-        private IToDoItemRepository _repo;
-        public string? DataSourceType { get; set; } = "db";
+        public string? LastDataSourceType { get; set; } = "db";
 
         public DataSourceSwitcher(
             DapperContext context, 
@@ -22,22 +21,41 @@ namespace ToDoListMVC.Repository
             _configuration = configuration;
         }
 
-        public void Switch(string? dataType)
+        public IToDoItemRepository GetRepository(string? storageType)
         {
-            DataSourceType = dataType;
-            if (dataType == "xml")
+            LastDataSourceType = storageType;
+            return GetRepositoryWithoutSaving(storageType);
+        }
+
+        public IToDoItemRepository GetRepositoryWithoutSaving(string? storageType)
+        {
+            if (storageType == "xml")
             {
-                _repo = new ToDoItemXmlRepository(_env, _configuration);
+                return new ToDoItemXmlRepository(_env, _configuration);
             }
             else
             {
-                _repo = new ToDoItemDbRepository(_context);
+                return new ToDoItemDbRepository(_context);
             }
         }
 
-        public IToDoItemRepository GetCurrentDataSource()
+        public void GetRepositoryForQuery(ref IToDoItemRepository repo, string storageType)
         {
-            return _repo;
+            if (storageType == "xml")
+            {
+                if (repo == null || repo is not ToDoItemXmlRepository)
+                {
+                    repo = new ToDoItemXmlRepository(_env, _configuration);
+                }
+            }
+            else
+            {
+                if (repo == null || repo is not ToDoItemDbRepository)
+                {
+                    repo = new ToDoItemDbRepository(_context);
+                }
+            }
         }
+
     }
 }

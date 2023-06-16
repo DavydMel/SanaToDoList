@@ -1,5 +1,10 @@
 import {combineEpics, Epic} from "redux-observable";
-import {addToDoItemEpic, completeToDoItemEpic, deleteToDoItemEpic, getToDoItemsEpic} from "./epics";
+import {
+    addToDoItemEpic,
+    completeToDoItemEpic,
+    deleteToDoItemEpic,
+    getToDoItemsEpic
+} from "./epics";
 import {catchError} from "rxjs";
 
 export const rootEpic: Epic = (action$, store$, dependencies) =>

@@ -1,7 +1,6 @@
 using GraphQL;
 using ToDoListMVC.Context;
 using ToDoListMVC.GraphQL.GraphQLSchema;
-using ToDoListMVC.Middleware;
 using ToDoListMVC.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<DataSourceSwitcher>();
+//builder.Services.AddTransient<IToDoItemRepository>()
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 
@@ -25,7 +25,8 @@ builder.Services.AddCors(options =>
                       {
                           policy.WithOrigins("http://localhost:3000")
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials();
                       });
 });
 
@@ -48,7 +49,7 @@ app.UseCors(MyAllowSpecificOrigins);
 
 app.UseAuthorization();
 
-app.UseStorageCookie();
+//app.UseStorageCookie();
 
 app.UseGraphQL<ToDoItemSchema>();
 app.UseGraphQLAltair();

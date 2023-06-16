@@ -6,24 +6,26 @@ import {completeToDoItem, deleteToDoItem} from "../../redux/epics";
 
 interface ToDoListItemProps {
     item: ToDoItem,
-    category: Category
+    category: Category,
+    storageType: string
 }
 
-function ToDoListItem({item, category}: ToDoListItemProps) {
+function ToDoListItem({item, category, storageType}: ToDoListItemProps) {
     const dispatch = useAppDispatch();
 
     function handleComplete() {
-        dispatch(completeToDoItem(item.id));
+        dispatch(completeToDoItem(item.id, storageType));
     }
     function handleDelete() {
-        dispatch(deleteToDoItem(item.id));
+        dispatch(deleteToDoItem(item.id, storageType));
     }
 
     return (
         <div className="todoitem">
             <div>
                 <h5
-                    className={`mb-1 + ${item.is_completed? "text__completed" : ""}`}>
+                    className={`mb-1 + ${item.is_completed? "text__completed" : ""}`}
+                >
                     {category.name}: {item.name}
                 </h5>
                 {

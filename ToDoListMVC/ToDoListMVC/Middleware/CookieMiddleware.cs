@@ -21,7 +21,7 @@ namespace ToDoListMVC.Middleware
                 storageType = "db";
                 httpContext.Response.Cookies.Append("storageType", storageType);
             }
-            _switcher.Switch(storageType);
+            _switcher.GetRepository(storageType);
             await _next.Invoke(httpContext);
         }
     }

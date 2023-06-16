@@ -7,7 +7,8 @@ import {useAppDispatch} from "../../features/hooks";
 import {addToDoItem} from "../../redux/epics";
 
 interface ToDoListAddFormProps {
-    categories: Category[]
+    categories: Category[],
+    storageType: string
 }
 const initialRawToDoItem: ToDoItemForCreationInput = {
     name: "",
@@ -15,7 +16,7 @@ const initialRawToDoItem: ToDoItemForCreationInput = {
     deadline: null
 };
 
-function ToDoListAddForm({categories}: ToDoListAddFormProps) {
+function ToDoListAddForm({categories, storageType}: ToDoListAddFormProps) {
     const dispatch = useAppDispatch();
 
     const [RawTodoitem, setRawTodoitem] =
@@ -42,7 +43,7 @@ function ToDoListAddForm({categories}: ToDoListAddFormProps) {
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        dispatch(addToDoItem(RawTodoitem));
+        dispatch(addToDoItem(RawTodoitem, storageType));
         setRawTodoitem(initialRawToDoItem);
     }
 

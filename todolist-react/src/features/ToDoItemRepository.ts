@@ -44,15 +44,17 @@ export function GenerateToDoItem(data: ToDoItemForCreationInput, id: number): To
 interface GraphqlToDoItemsWithCategories {
     data: {
         categories: Category[],
-        toDoItems: ToDoItem[]
+        toDoItems: ToDoItem[],
+        storageType: "db" | "xml"
     }
 }
-export function RequestToDoItem(): Observable<ToDoItemsWithCategories> {
+export function RequestToDoItem(storageType: string): Observable<ToDoItemsWithCategories> {
     return ajax<GraphqlToDoItemsWithCategories>({
         url: "https://localhost:7116/graphql",
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'storageType' : storageType
         },
         body: JSON.stringify({
             query: `
@@ -67,7 +69,8 @@ export function RequestToDoItem(): Observable<ToDoItemsWithCategories> {
                   categories {
                     id,
                     name
-                  }
+                  },
+                  storageType
                 }
             `
         })
@@ -76,19 +79,20 @@ export function RequestToDoItem(): Observable<ToDoItemsWithCategories> {
             let toDoItemsWithCategories: ToDoItemsWithCategories = {
                 ToDoItems: res.response.data.toDoItems,
                 Categories: res.response.data.categories,
-                Type: "db"
+                Type: res.response.data.storageType
             }
             return toDoItemsWithCategories;
         })
     );
 }
 
-export function RequestAddToDoItem(toDoItem: ToDoItemForCreationInput): Observable<string> {
+export function RequestAddToDoItem(toDoItem: ToDoItemForCreationInput, storageType: string): Observable<string> {
     return ajax<string>({
         url: "https://localhost:7116/graphql",
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'storageType' : storageType
         },
         body: JSON.stringify({
             query: `
@@ -110,12 +114,13 @@ export function RequestAddToDoItem(toDoItem: ToDoItemForCreationInput): Observab
     );
 }
 
-export function RequestCompleteToDoItem(id: number): Observable<string> {
+export function RequestCompleteToDoItem(id: number, storageType: string): Observable<string> {
     return ajax<string>({
         url: "https://localhost:7116/graphql",
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'storageType' : storageType
         },
         body: JSON.stringify({
             query: `
@@ -132,12 +137,13 @@ export function RequestCompleteToDoItem(id: number): Observable<string> {
     );
 }
 
-export function RequestDeleteToDoItem(id: number): Observable<string> {
+export function RequestDeleteToDoItem(id: number, storageType: string): Observable<string> {
     return ajax<string>({
         url: "https://localhost:7116/graphql",
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'storageType': storageType
         },
         body: JSON.stringify({
             query: `

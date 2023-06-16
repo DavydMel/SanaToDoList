@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ToDoItems>
-  <ToDoItem id="1" category_id="1" name="Study SQL2" deadline="04.04.2023 14:30:00" is_completed="false" />
+  <ToDoItem id="1" category_id="1" name="Study SQL2" deadline="04.04.2023 14:30:00" is_completed="False" />
   <ToDoItem id="2" category_id="2" name="Visit parents2" deadline="13.04.2023 12:00:00" is_completed="True" />
   <ToDoItem id="3" category_id="3" name="Buy a house2" deadline="" is_completed="False" />
 </ToDoItems>

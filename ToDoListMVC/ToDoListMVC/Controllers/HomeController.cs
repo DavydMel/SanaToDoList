@@ -13,14 +13,14 @@ namespace ToDoListMVC.Controllers
         public HomeController(DataSourceSwitcher switcher)
         {
             _switcher = switcher;
-            _repo = _switcher.GetCurrentDataSource();
+            _repo = _switcher.GetRepository(_switcher.LastDataSourceType);
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var toDoItemsWhithCategories = new ToDoItemsWithCategoriesViewModel();
-            toDoItemsWhithCategories.Type = _switcher.DataSourceType;
+            toDoItemsWhithCategories.Type = _switcher.LastDataSourceType;
             toDoItemsWhithCategories.ToDoItems = await _repo.GetToDoItemsAsync();
             toDoItemsWhithCategories.Categories = await _repo.GetCategoriesAsync();
             return View(toDoItemsWhithCategories);
@@ -44,9 +44,9 @@ namespace ToDoListMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeDataSource(string? sourse = "db")
         {
-            _switcher.Switch(sourse);
-            _repo = _switcher.GetCurrentDataSource();
-            Response.Cookies.Append("storageType", sourse);
+            _switcher.GetRepository(sourse);
+            _repo = _switcher.GetRepository(sourse);
+            //Response.Cookies.Append("storageType", sourse);
             return RedirectToAction("Index");
         }
 

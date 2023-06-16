@@ -20,6 +20,7 @@ function ToDoList({data}: ToDoListProps) {
                                 key={toDoItem.id}
                                 item={toDoItem}
                                 category={category}
+                                storageType={data.Type}
                             />
                         );
                     }
